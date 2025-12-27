@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevBlog - Chia sẻ kiến thức lập trình</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #34e89e 0%, #0f3443 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Background animation - giữ nguyên */
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 10.01%);
+            background-size: 50px 50px;
+            animation: wave 20s linear infinite;
+        }
+
+        @keyframes wave {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-50%, -50%); }
+        }
+
+        /* Sidebar Navigation - GIỮ NGUYÊN hoàn toàn */
+        header {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 250px;
+            padding: 2rem 1rem;
+            z-index: 100;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        header.hidden {
+            transform: translateX(-100%);
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            background: linear-gradient(45deg, #fff, #34e89e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 1rem;
+            display: block;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: rgba(255, 255, 255, 0.18);
+            color: #34e89e;
+        }
+
+        /* Toggle button cho mobile */
+        .menu-toggle {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 101;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: #fff;
+            font-size: 1.6rem;
+            padding: 0.6rem 0.8rem;
+            cursor: pointer;
+            border-radius: 50%;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            header { transform: translateX(-100%); }
+            header.visible { transform: translateX(0); }
+        }
+
+        /* Container */
+        .container {
+            max-width: calc(100% - 250px);
+            margin-left: 250px;
+            padding: 3rem;
+            min-height: 100vh;
+        }
+
+        @media (max-width: 768px) {
+            .container { 
+                max-width: 100%; 
+                margin-left: 0; 
+                padding: 3rem 1.5rem; 
+            }
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            text-align: center;
+            padding: 12rem 0 8rem;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 30%, rgba(15,52,67,0.6));
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 6rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, #34e89e, #fff, #34e89e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero .subtitle {
+            font-size: 1.8rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            opacity: 0.95;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.4s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #34e89e, #2ecc71);
+            color: #0f3443;
+            box-shadow: 0 10px 30px rgba(52, 232, 158, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(52, 232, 158, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #34e89e;
+            color: #34e89e;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(52, 232, 158, 0.2);
+            transform: translateY(-6px);
+        }
+
+        .section {
+            padding: 6rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 4rem;
+            background: linear-gradient(90deg, #34e89e, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Highlights - grid tự động điều chỉnh (bây giờ có 4 card) */
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 3rem;
+        }
+
+        .highlight-card {
+            background: rgba(15, 52, 67, 0.35);
+            backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 3rem 2rem;
+            text-align: center;
+            border: 1px solid rgba(52, 232, 158, 0.3);
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .highlight-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(52,232,158,0.15), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .highlight-card:hover::before {
+            opacity: 1;
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-15px);
+            border-color: #34e89e;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+        }
+
+        .highlight-card .card-icon {
+            font-size: 6rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .highlight-card h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .coursera-link {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(90deg, #34e89e, #2ecc71);
+            color: #0f3443;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            margin-top: 2rem;
+            transition: transform 0.3s;
+        }
+
+        .coursera-link:hover {
+            transform: scale(1.1);
+        }
+
+        /* Timeline cho lộ trình học tập */
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background: rgba(52, 232, 158, 0.4);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            padding: 2rem 3rem;
+            position: relative;
+            width: 50%;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            text-align: left;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: #34e89e;
+            border: 5px solid #0f3443;
+            top: 50px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .timeline-item:nth-child(odd)::after {
+            right: -12.5px;
+        }
+
+        .timeline-item:nth-child(even)::after {
+            left: -12.5px;
+        }
+
+        .timeline-content {
+            background: rgba(15, 52, 67, 0.45);
+            backdrop-filter: blur(16px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(52, 232, 158, 0.2);
+            position: relative;
+        }
+
+        .timeline-content .card-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 992px) {
+            .timeline::after {
+                left: 31px;
+            }
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+                text-align: left;
+            }
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            .timeline-item::after {
+                left: 18.5px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 4rem; }
+            .hero .subtitle { font-size: 1.5rem; }
+        }
+
+        footer {
+            text-align: center;
+            padding: 5rem 2rem 3rem;
+            background: rgba(15, 52, 67, 0.8);
+            border-top: 1px solid rgba(52, 232, 158, 0.15);
+            margin-top: 6rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-animation"></div>
+
+<button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+<header id="sidebar">
+    <div class="logo">NightFury</div>
+    <ul class="nav-links">
+        <li><a href="index.html">Welcome</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="profile.html">Profile</a></li>
+    </ul>
+</header>
+
+<div class="container">
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to</h1>
+            <h1>NightFury Blog</h1>
+            <p class="subtitle">Làm chủ Java, JavaScript & công nghệ hiện đại</p>
+            <div class="cta-buttons">
+                <a href="blog.html" class="btn btn-primary">Blog</a>
+                <a href="profile.html" class="btn btn-secondary">Fury</a>
+            </div>
+        </div>
+    </section>
+ <section class="section">
+        <h2 class="section-title"> 🌟Highlights🌟</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon"></div>
+                <h3>Comprehensive Java Exploration</h3>
+                <p>Core Java, OOP, Collections, Exception Handling, Spring Boot & Modern Java practices</p>
+                <a href="https://codegym.cc/vi/" target="_blank" class="coursera-link">
+                    Học Java ngay →
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"></div>
+                <h3>Contemporary JavaScript</h3>
+                <p>ES6+, Async Programming, React Hooks, State Management & Performance tips</p>
+                <a href="https://codegym.vn/khoa-hoc-nhap-mon-lap-trinh-voi-javascript/" target="_blank" class="coursera-link">
+                    Học JavaScript ngay →
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"></div>
+                <h3>Code Quality & Best Practices</h3>
+                <p>SOLID, Design Patterns, Testing, CI/CD và những kinh nghiệm thực chiến</p>
+                <a href="https://codegym.vn/khoa-hoc-clean-code/" target="_blank" class="coursera-link">
+                    Học Full-Stack ngay →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title"> Nhu Cầu Tim Hiểu Thêm</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="card-icon">🌐</div>
+                    <h3>End-to-End JavaScript</h3>
+                    <p>HTML/CSS → JavaScript ES6+ → React → Node.js → Express → MongoDB</p>
+                    <a href="https://codegym.vn/khoa-hoc-javascript-2/" target="_blank" class="coursera-link">
+                        GO →
+                    </a>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="card-icon">🗄️</div>
+                    <h3>Data Systems Maestro</h3>
+                    <p>SQL Mastery → Advanced Joins & Optimization → NoSQL (MongoDB) → PostgreSQL & ORM</p>
+                    <a href="https://www.udemy.com/course/lam-chu-database-sql-server-tu-co-ban-den-nang-cao/" target="_blank" class="coursera-link">
+                        GO →
+                    </a>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="card-icon">🎯</div>
+                    <h3>Game Development with C#</h3>
+                    <p>C# Core → .NET Core → Unity Game Engine → 2D/3D Development → Multiplayer Basics</p>
+                    <a href="https://www.udemy.com/course/khoa-hoc-lap-trinh-c-sharp-co-ban-den-nang-cao/" target="_blank" class="coursera-link">
+                        GO →
+                    </a>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="card-icon">☁️</div>
+                    <h3>DevOps Engineer</h3>
+                    <p>AWS Fundamentals → Docker & Kubernetes → CI/CD Pipeline → Infrastructure as Code</p>
+                    <a href="https://cybersoft.edu.vn/devops-chuyen-sau/" target="_blank" class="coursera-link">
+                        GO →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 DevBlog - Nơi kiến thức lập trình không ngừng phát triển</p>
+        <p style="margin-top: 0.8rem; font-size: 0.95rem; opacity: 0.75;">
+            Powered by Coursera • Made with 💚 for the next generation of developers
+        </p>
+    </footer>
+</div>
+
+<script>
+    function toggleMenu() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('visible');
+    }
+
+    // Active link + Timeline animation
+    document.addEventListener('DOMContentLoaded', () => {
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            if (link.getAttribute('href') === currentPage) {
+                link.classList.add('active');
+            }
+        });
+
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.3 });
+
+        timelineItems.forEach(item => observer.observe(item));
+    });
+</script>
+
+</body>
+</html>
