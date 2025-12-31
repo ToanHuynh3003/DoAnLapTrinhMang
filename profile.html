@@ -47,7 +47,7 @@
             100% { transform: translate(-50%, -50%); }
         }
 
-        /* Sidebar Navigation - GIỮ NGUYÊN */
+        /* Sidebar Navigation */
         header {
             background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(15px);
@@ -301,7 +301,7 @@
             font-weight: 600;
         }
 
-        /* PHẦN CHỨNG CHỈ - ĐÃ THÊM LINK (BẠN CHỈ CẦN THAY href) */
+        /* Chứng chỉ */
         .certificates-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
@@ -353,13 +353,38 @@
         .certificate-caption {
             font-size: 1.5rem;
             font-weight: 700;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+            color: #34e89e;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
         }
 
         .certificate-provider {
             font-size: 1.1rem;
-            opacity: 0.9;
+            color: #ffffff;
+            opacity: 1;
             margin-top: 0.5rem;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+        }
+
+        /* PHẦN DỰ ÁN - VIDEO TỪ GOOGLE DRIVE */
+        .project-section {
+            text-align: center;
+        }
+
+        .project-video {
+            width: 100%;
+            max-width: 900px;
+            height: 500px;
+            border-radius: 20px;
+            border: 3px solid rgba(52, 232, 158, 0.5);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            margin: 2rem auto;
+        }
+
+        .project-description {
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            line-height: 1.8;
         }
 
         footer {
@@ -377,12 +402,13 @@
             .hero-right h1 { font-size: 3.5rem; }
             .about-text { text-align: center; }
             .certificates-grid { grid-template-columns: 1fr; }
+            .project-video { height: 400px; }
         }
 
         @media (max-width: 768px) {
             .avatar { width: 250px; height: 250px; }
             .hero-right h1 { font-size: 3rem; }
-            .certificate-caption { font-size: 1.3rem; }
+            .project-video { height: 300px; }
         }
     </style>
 </head>
@@ -419,15 +445,15 @@
             <div class="about-text">
                 <p>
                     Xin chào, mình là một lập trình viên trẻ đầy nhiệt huyết với công nghệ. Hiện tại, mình đang theo học và nghiên cứu trong lĩnh vực Computer Science, nơi mình có cơ hội khám phá và phát triển những ý tưởng mới.
-
-Trong số nhiều ngôn ngữ lập trình, mình đặc biệt yêu thích Java và JavaScript. Với mình, đây không chỉ là công cụ lập trình mà còn là những người bạn đồng hành, gắn liền với sự tiến bộ của công nghệ trong tương lai.
-
-Mình xây dựng blog này như một không gian chia sẻ – nơi mình ghi lại những kiến thức, trải nghiệm và bài học rút ra trong quá trình học tập cũng như làm việc. Mình tin rằng, chia sẻ kiến thức không chỉ giúp cộng đồng mà còn giúp chính bản thân mình hiểu sâu hơn và trưởng thành hơn trên hành trình công nghệ.
                 </p>
                 <p>
+                    Trong số nhiều ngôn ngữ lập trình, mình đặc biệt yêu thích Java và JavaScript. Với mình, đây không chỉ là công cụ lập trình mà còn là những người bạn đồng hành, gắn liền với sự tiến bộ của công nghệ trong tương lai.
                 </p>
                 <p>
-                    💡 <strong>Phương châm:</strong> "Knowledge grows when shared" – Kiến thức chỉ lớn lên khi được chia sẻ.
+                    Mình xây dựng blog này như một không gian chia sẻ – nơi mình ghi lại những kiến thức, trải nghiệm và bài học rút ra trong quá trình học tập cũng như làm việc. Mình tin rằng, chia sẻ kiến thức không chỉ giúp cộng đồng mà còn giúp chính bản thân mình hiểu sâu hơn và trưởng thành hơn trên hành trình công nghệ.
+                </p>
+                <p>
+                    "Knowledge grows when shared" – Kiến thức chỉ lớn lên khi được chia sẻ.
                 </p>
             </div>
         </div>
@@ -437,7 +463,6 @@ Mình xây dựng blog này như một không gian chia sẻ – nơi mình ghi 
     <div class="section">
         <h2>🛠️ Kỹ năng & Công nghệ</h2>
         <div class="skills-grid">
-
             <div class="skill-category">
                 <h3>🌐 Frontend Development</h3>
                 <div class="skill-tags">
@@ -472,39 +497,52 @@ Mình xây dựng blog này như một không gian chia sẻ – nơi mình ghi 
         </div>
     </div>
 
-    <!-- PHẦN CHỨNG CHỈ - ĐÃ THÊM LINK (BẠN CHỈ CẦN THAY href VÀ src) -->
+    <!-- PHẦN DỰ ÁN NỔI BẬT - VIDEO TỪ GOOGLE DRIVE -->
+    <div class="section project-section">
+        <h2>🚀 Dự án nổi bật</h2>
+        <iframe class="project-video" 
+                src="https://drive.google.com/file/d/1xWf89xWlWiQ7nCAayIpYJxzB4NSIm0aN/preview" 
+                title="Demo dự án nổi bật" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+        </iframe>
+        <div class="project-description">
+            <p>
+                <strong>Tên dự án:</strong> Web Bán Vợt Cầu Lông<br>
+                <strong>Mô tả ngắn:</strong> Đây là dự án full-stack mà tụi mình tự hào nhất. 
+                Dự án giúp giải quyết vấn đề bán hàng trực tuyến cho các sản phẩm cầu lông, với các tính năng chính như quản lý sản phẩm, giỏ hàng và thanh toán. 
+                Video trên là demo thực tế hoạt động của hệ thống.
+            </p>
+        </div>
+    </div>
+
+    <!-- Chứng chỉ -->
     <div class="section">
         <h2>🏆 Chứng chỉ đã đạt được</h2>
         <div class="certificates-grid">
-            <!-- CHỨNG CHỈ 1 -->
             <a href="https://www.credly.com/earner/earned/badge/7e3fa76c-9c58-4ed5-8a25-04f3d217f614" target="_blank" class="certificate-item">
                 <img src="images/CC1.jpg" alt="Chứng chỉ 1" class="certificate-img">
                 <div class="certificate-overlay">
                     <div>
                         <div class="certificate-caption">Tên chứng chỉ số 1</div>
-                        
                     </div>
                 </div>
             </a>
 
-            <!-- CHỨNG CHỈ 2 -->
             <a href="https://www.credly.com/earner/earned/badge/86b7fcc4-e411-42e9-a743-e6fd917e60ff" target="_blank" class="certificate-item">
                 <img src="images/CC2.jpg" alt="Chứng chỉ 2" class="certificate-img">
                 <div class="certificate-overlay">
                     <div>
                         <div class="certificate-caption">Tên chứng chỉ số 2</div>
-                        
                     </div>
                 </div>
             </a>
 
-            <!-- CHỨNG CHỈ 3 -->
             <a href="https://www.credly.com/earner/earned/badge/a6ab157b-f1e7-4317-b6e0-6e2ad5106502" target="_blank" class="certificate-item">
                 <img src="images/CC3.jpg" alt="Chứng chỉ 3" class="certificate-img">
                 <div class="certificate-overlay">
                     <div>
                         <div class="certificate-caption">Tên chứng chỉ số 3</div>
-                       
                     </div>
                 </div>
             </a>
